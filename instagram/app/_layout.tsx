@@ -1,5 +1,17 @@
+import { StyleSheet, Text, View } from "react-native";
+import React from "react";
 import { Stack } from "expo-router";
 
-export default function RootLayout() {
-  return <Stack />;
-}
+const _layout = () => {
+  return (
+    <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="index" />
+      <Stack.Screen name="home" />
+      <Stack.Screen name="posts/[id]" options={{ title: "Post" }} />
+    </Stack>
+  );
+};
+
+export default _layout;
+
+const styles = StyleSheet.create({});
