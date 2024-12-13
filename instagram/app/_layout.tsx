@@ -8,6 +8,13 @@ const _layout = () => {
       <Stack.Screen name="index" />
       <Stack.Screen name="home" />
       <Stack.Screen name="posts/[id]" options={{ title: "Post" }} />
+      <Stack.Screen
+        name="comments"
+        options={{
+          presentation: "modal",
+          title: "Comments",
+        }}
+      />
     </Stack>
   );
 };

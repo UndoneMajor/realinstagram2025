@@ -12,6 +12,7 @@
     ".expo/types/**/*.ts",
     "expo-env.d.ts",
     "components/Post.jsx",
-    "app/posts/[id].jsx"
+    "app/posts/[id].jsx",
+    "app/comments.jsx"
   ]
 }
