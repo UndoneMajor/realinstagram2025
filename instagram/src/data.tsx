@@ -131,7 +131,28 @@ export const postData = [
       },
     ],
   },
-  { id: 7, desc: "My post1", img: require("../assets/images/Post1.png") },
+  {
+    id: 7,
+    desc: "My post1",
+    img: require("../assets/images/Post1.png"),
+    comment: [
+      {
+        id: "User1",
+        idProfile: "https://randomuser.me/api/portraits/med/men/75.jpg",
+        text: "Comment1",
+      },
+      {
+        id: "User2",
+        idProfile: "https://randomuser.me/api/portraits/med/men/75.jpg",
+        text: "Comment2",
+      },
+      {
+        id: "User3",
+        idProfile: "https://randomuser.me/api/portraits/med/men/75.jpg",
+        text: "Comment3",
+      },
+    ],
+  },
   { id: 8, desc: "My post2", img: require("../assets/images/Post2.png") },
   { id: 9, desc: "My post3", img: require("../assets/images/Post3.png") },
   { id: 10, desc: "My post1", img: require("../assets/images/Post4.png") },
