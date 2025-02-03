@@ -7,7 +7,7 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: "blue",
-        tabBarStyle: { width: 390, height: 56 },
+        tabBarStyle: { width: "100%", height: 56 },
       }}
     >
       <Tabs.Screen
