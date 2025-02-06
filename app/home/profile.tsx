@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     width: 197,
     height: 35,
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "space-between", 
   },
   followersNumber: {
     flexDirection: "column",
