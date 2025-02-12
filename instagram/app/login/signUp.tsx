@@ -6,10 +6,17 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "expo-router";
 
 const signUp = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [fullname, setFullname] = useState("");
+  const [username, setUsername] = useState("");
+  const Signup = () => {
+    console.log(email, password, fullname, username);
+  };
   return (
     <View style={styles.container}>
       <View style={styles.logIn}>
@@ -17,12 +24,32 @@ const signUp = () => {
           style={{ width: "60%", height: "10%", marginBottom: 30 }}
           source={require("@/assets/home/IG logo.png")}
         />
-        <TextInput style={styles.inputStyle} placeholder="email" />
-        <TextInput style={styles.inputStyle} placeholder="password" />
-        <TextInput style={styles.inputStyle} placeholder="Full name" />
-        <TextInput style={styles.inputStyle} placeholder="Username" />
+        <TextInput
+          value={email}
+          onChangeText={(text) => setEmail(text)}
+          style={styles.inputStyle}
+          placeholder="email"
+        />
+        <TextInput
+          value={password}
+          onChangeText={(text) => setPassword(text)}
+          style={styles.inputStyle}
+          placeholder="password"
+        />
+        <TextInput
+          value={fullname}
+          onChangeText={(text) => setFullname(text)}
+          style={styles.inputStyle}
+          placeholder="Full name"
+        />
+        <TextInput
+          value={username}
+          onChangeText={(text) => setUsername(text)}
+          style={styles.inputStyle}
+          placeholder="Username"
+        />
         <Link href={"/login"} asChild style={{ marginBottom: 15 }}>
-          <TouchableOpacity style={styles.logButton}>
+          <TouchableOpacity onPress={Signup} style={styles.logButton}>
             <Text style={{ color: "white", fontWeight: "bold" }}>Sign up</Text>
           </TouchableOpacity>
         </Link>
