@@ -7,17 +7,29 @@ import {
   View,
 } from "react-native";
 import React, { useState } from "react";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
+import { signinBase } from "@/firebaseConfig";
 
 const Sigin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [hidepassword, setHidepassword] = useState(true);
+  const [error, setError] = useState("");
   const togglePassword = () => {
     setHidepassword(!hidepassword);
   };
-  const Login = () => {
-    console.log(email, password);
+  const Login = async () => {
+    try {
+      const responce = await signinBase(email, password);
+      console.log("Нэвтэрлээ");
+      setError("");
+      router.push("/home");
+    } catch (error) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      if (errorCode == "auth/invalid-credential")
+        setError("Нууц үг буруу байна");
+    }
   };
   return (
     <View style={styles.container}>
@@ -59,6 +71,7 @@ const Sigin = () => {
             </Text>
           </TouchableOpacity>
         </Link>
+        {error && <Text style={{ color: "red" }}>{error}</Text>}
       </View>
     </View>
   );

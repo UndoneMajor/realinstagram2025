@@ -13,6 +13,8 @@
     "expo-env.d.ts",
     "components/Post.jsx",
     "app/posts/[id].jsx",
-    "app/comments.jsx"
+    "app/comments.jsx",
+    "app/login/signUp.jsx",
+    "app/login/index.jsx"
   ]
 }

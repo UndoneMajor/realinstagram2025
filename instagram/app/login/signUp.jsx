@@ -8,14 +8,16 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { Link } from "expo-router";
+import { signupBase } from "../../firebaseConfig";
 
 const signUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullname, setFullname] = useState("");
   const [username, setUsername] = useState("");
-  const Signup = () => {
-    console.log(email, password, fullname, username);
+  const Signup = async () => {
+    const response = await signupBase(email, password);
+    console.log("responce", response);
   };
   return (
     <View style={styles.container}>
@@ -25,6 +27,7 @@ const signUp = () => {
           source={require("@/assets/home/IG logo.png")}
         />
         <TextInput
+          keyboardType="email-address"
           value={email}
           onChangeText={(text) => setEmail(text)}
           style={styles.inputStyle}
