@@ -1,11 +1,12 @@
+import { Tabs } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import { Tabs } from "expo-router";
-import MaterialTopTabNavigationOptions from "react-native-pager-view";
+
 export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
+        headerShown: false,
         tabBarActiveTintColor: "blue",
         tabBarStyle: { width: "100%", height: 56 },
       }}
@@ -13,7 +14,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: "Нүүр хуудас",
+          title: "",
           tabBarIcon: ({ color }) => (
             <FontAwesome size={28} name="home" color={color} />
           ),
@@ -24,7 +25,7 @@ export default function TabLayout() {
         options={{
           title: "Profile",
           tabBarIcon: ({ color }) => (
-            <MaterialIcons name="account-circle" size={24} color="black" />
+            <MaterialIcons name="account-circle" size={24} color={color} />
           ),
         }}
       />

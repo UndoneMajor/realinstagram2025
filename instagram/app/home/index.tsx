@@ -1,112 +1,178 @@
+import React, { useRef } from "react";
 import {
   Dimensions,
   Image,
-  ScrollView,
+  Animated,
   StyleSheet,
   Text,
   View,
 } from "react-native";
-import React from "react";
-import PagerView from "react-native-pager-view";
-import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
+import { ScrollView } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import SimpleLineIcons from "@expo/vector-icons/SimpleLineIcons";
 import { postData } from "@/src/data";
 
-const index = () => {
+const HEADER_HEIGHT = 50;
+const HEADER_EXTRA = 20;
+const TOTAL_HEADER_HEIGHT = HEADER_HEIGHT + HEADER_EXTRA;
+
+const HomeScreen = () => {
+  const insets = useSafeAreaInsets();
+  const scrollY = useRef(new Animated.Value(0)).current;
+  const clampedScrollY = Animated.diffClamp(scrollY, 0, TOTAL_HEADER_HEIGHT);
+  const headerTranslateY = clampedScrollY.interpolate({
+    inputRange: [0, TOTAL_HEADER_HEIGHT],
+    outputRange: [0, -TOTAL_HEADER_HEIGHT],
+    extrapolate: "clamp",
+  });
   return (
-    <View style={styles.container}>
-      <View style={styles.homeHeader}>
-        <View style={styles.homeText}>
-          <Image source={require("@/assets/home/IG logo.png")} />
-          <AntDesign name="down" size={16} color="black" />
-        </View>
-        <View style={styles.headerLogo}>
-          <AntDesign name="hearto" size={24} color="black" />
-          <Image source={require("@/assets/home/messagelogo.png")} />
-          <AntDesign name="plussquareo" size={24} color="black" />
-        </View>
-      </View>
-      <View style={{ height: 105 }}>
-        <ScrollView horizontal={true}>
-          <Image source={require("@/assets/home/Story user.png")} />
-          <Image source={require("@/assets/home/Story user (1).png")} />
-          <Image source={require("@/assets/home/Story user (2).png")} />
-          <Image source={require("@/assets/home/Story user (3).png")} />
-          <Image source={require("@/assets/home/Story user (1).png")} />
-          <Image source={require("@/assets/home/Story user (2).png")} />
-          <Image source={require("@/assets/home/Story user (3).png")} />
-        </ScrollView>
-      </View>
-      <View style={styles.homePost}>
-        <View style={styles.postHeader}>
-          <View
-            style={{
-              width: 84,
-              height: 36,
-              flexDirection: "row",
-              alignItems: "center",
-              gap: 8,
-            }}
-          >
-            <Image
-              style={{ height: 36, width: 36 }}
-              source={require("@/assets/images/AccountIcon2.png")}
-            />
-            <Text style={{ fontSize: 14 }}>Name</Text>
+    <SafeAreaView style={styles.container}>
+      <View style={[styles.headerWrapper, { top: insets.top }]}>
+        <Animated.View
+          style={[
+            styles.homeHeader,
+            {
+              transform: [{ translateY: headerTranslateY }],
+              paddingTop: insets.top,
+            },
+          ]}
+        >
+          <View style={styles.homeText}>
+            <Image source={require("@/assets/home/IG logo.png")} />
+            <AntDesign name="down" size={16} color="black" />
           </View>
-          <SimpleLineIcons name="options" size={24} color="black" />
-        </View>
-        <Image
-          source={postData[0].img}
-          style={{ width: "100%", height: Dimensions.get("window").width }}
-        />
+          <View style={styles.headerLogo}>
+            <AntDesign name="hearto" size={24} color="black" />
+            <Image source={require("@/assets/home/messagelogo.png")} />
+            <AntDesign name="plussquareo" size={24} color="black" />
+          </View>
+        </Animated.View>
       </View>
-    </View>
+      <Animated.ScrollView
+        style={styles.scrollContainer}
+        contentContainerStyle={{ paddingTop: TOTAL_HEADER_HEIGHT + 20 }}
+        scrollEventThrottle={16}
+        onScroll={Animated.event(
+          [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+          { useNativeDriver: true }
+        )}
+      >
+        <View style={styles.storyContainer}>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            <View style={styles.storyItem}>
+              <Image
+                source={require("@/assets/home/Story user.png")}
+                style={styles.storyImage}
+              />
+              <Text style={styles.storyText}>Your Story</Text>
+            </View>
+            <View style={styles.storyItem}>
+              <Image
+                source={require("@/assets/home/Story user (1).png")}
+                style={styles.storyImage}
+              />
+              <Text style={styles.storyText}>Friend</Text>
+            </View>
+            <View style={styles.storyItem}>
+              <Image
+                source={require("@/assets/home/Story user (2).png")}
+                style={styles.storyImage}
+              />
+              <Text style={styles.storyText}>Friend</Text>
+            </View>
+            <View style={styles.storyItem}>
+              <Image
+                source={require("@/assets/home/Story user (3).png")}
+                style={styles.storyImage}
+              />
+              <Text style={styles.storyText}>Friend</Text>
+            </View>
+          </ScrollView>
+        </View>
+        {postData.map((post) => (
+          <View style={styles.homePost} key={post.id}>
+            <View style={styles.postHeader}>
+              <View style={styles.postHeaderLeft}>
+                <Image
+                  style={styles.postUserIcon}
+                  source={post.profileImage}
+                />
+                <Text style={styles.postUserName}>{post.profileName}</Text>
+              </View>
+              <SimpleLineIcons name="options" size={24} color="black" />
+            </View>
+            <Image
+              source={post.img}
+              style={{
+                width: "100%",
+                height: Dimensions.get("window").width,
+              }}
+            />
+            <View style={styles.postFooter}>
+              <Text style={styles.postDesc}>{post.desc}</Text>
+            </View>
+          </View>
+        ))}
+      </Animated.ScrollView>
+    </SafeAreaView>
   );
 };
 
-export default index;
+export default HomeScreen;
 
 const styles = StyleSheet.create({
-  container: {
-    width: "100%",
-    backgroundColor: "white",
-    flex: 1,
+  container: { flex: 1, backgroundColor: "white" },
+  headerWrapper: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    height: TOTAL_HEADER_HEIGHT,
+    overflow: "hidden",
+    zIndex: 1000,
   },
+  scrollContainer: { flex: 1 },
   homeHeader: {
-    width: "100%",
+    height: TOTAL_HEADER_HEIGHT,
+    paddingHorizontal: 13,
+    backgroundColor: "white",
     flexDirection: "row",
     justifyContent: "space-between",
-    // backgroundColor: "orange",
-    paddingTop: 5,
-    height: 40,
-    paddingBottom: 5,
-    paddingLeft: 13,
-    paddingRight: 13,
+    alignItems: "center",
+    elevation: 4,
   },
-  headerLogo: {
-    flexDirection: "row",
-    gap: 24,
+  homeText: { flexDirection: "row", alignItems: "center" },
+  headerLogo: { flexDirection: "row", alignItems: "center" },
+  storyContainer: {
+    height: 120,
+    marginBottom: 10,
+    paddingHorizontal: 10,
   },
-  homeText: {
-    flexDirection: "row",
-    gap: 8,
+  storyItem: {
+    alignItems: "center",
+    marginRight: 15,
   },
-  storyBar: {
-    height: 105,
+  storyImage: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    borderWidth: 3,
+    borderColor: "#C13584",
+    marginBottom: 5,
   },
-  homePost: {
-    // backgroundColor: "blue",
-  },
+  storyText: { fontSize: 12 },
+  homePost: { marginBottom: 20 },
   postHeader: {
     flexDirection: "row",
     alignItems: "center",
     height: 50,
     justifyContent: "space-between",
-    paddingRight: 13,
-    paddingLeft: 13,
-    paddingTop: 7,
-    paddingBottom: 7,
+    paddingHorizontal: 13,
+    paddingVertical: 7,
   },
+  postHeaderLeft: { flexDirection: "row", alignItems: "center" },
+  postUserIcon: { height: 36, width: 36, borderRadius: 18 },
+  postUserName: { fontSize: 14, marginLeft: 8 },
+  postFooter: { paddingHorizontal: 13, paddingVertical: 7 },
+  postDesc: { fontSize: 14 },
 });
