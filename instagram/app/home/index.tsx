@@ -12,6 +12,7 @@ import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import SimpleLineIcons from "@expo/vector-icons/SimpleLineIcons";
 import { postData } from "@/src/data";
+
 const index = () => {
   return (
     <View style={styles.container}>

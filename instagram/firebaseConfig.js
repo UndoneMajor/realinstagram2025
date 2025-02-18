@@ -1,28 +1,18 @@
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
+import { initializeApp } from "firebase/app"
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth"
 
 const firebaseConfig = {
-  apiKey: "AIzaSyC3rilNG2FRm4nm5m-v8c6FXHaHMhAqiq0",
-  authDomain: "mkinstagram-57c54.firebaseapp.com",
-  projectId: "mkinstagram-57c54",
-  storageBucket: "mkinstagram-57c54.firebasestorage.app",
-  messagingSenderId: "137780532394",
-  appId: "1:137780532394:web:68a0efbb6a81dd18ec6cd3",
-  measurementId: "G-FFECYGPDCK",
-};
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-const auth = getAuth(app);
-export const signupBase = (email, password) => {
-  return createUserWithEmailAndPassword(auth, email, password);
-};
-export const signinBase = (email, password) => {
-  return signInWithEmailAndPassword(auth, email, password);
-};
+  apiKey: "AIzaSyBeq_-ecz3NQgBKFuFJpOGgSzQsZdMdaEg",
+  authDomain: "instagrammer-be66f.firebaseapp.com",
+  projectId: "instagrammer-be66f",
+  storageBucket: "instagrammer-be66f.firebasestorage.app",
+  messagingSenderId: "674248045972",
+  appId: "1:674248045972:web:45156e2ef54d41d7ca0b81",
+  measurementId: "G-R3BX1KW8BK"
+}
+
+const app = initializeApp(firebaseConfig)
+const auth = getAuth(app)
+
+export const signupBase = (email, password) => createUserWithEmailAndPassword(auth, email, password)
+export const signinBase = (email, password) => signInWithEmailAndPassword(auth, email, password)
