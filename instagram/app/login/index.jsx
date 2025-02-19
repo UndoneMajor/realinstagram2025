@@ -7,30 +7,33 @@ import {
   View,
 } from "react-native";
 import React, { useState } from "react";
-import { Link, router } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import { signinBase } from "@/firebaseConfig";
 
 const Sigin = () => {
+  const router = useRouter(); // ✅ Correct hook for navigation
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [hidepassword, setHidepassword] = useState(true);
   const [error, setError] = useState("");
-  const togglePassword = () => {
-    setHidepassword(!hidepassword);
-  };
+
+  const togglePassword = () => setHidepassword(!hidepassword);
+
   const Login = async () => {
     try {
-      const responce = await signinBase(email, password);
-      console.log("Нэвтэрлээ");
+      const response = await signinBase(email, password);
+      console.log("Login Successful:", response.user);
       setError("");
-      router.push("/home");
+      router.replace("/home"); // ✅ Use replace for redirect after login
     } catch (error) {
+      console.error("Login Error:", error);
       const errorCode = error.code;
-      const errorMessage = error.message;
-      if (errorCode == "auth/invalid-credential")
+      if (errorCode === "auth/invalid-credential")
         setError("Нууц үг буруу байна");
+      else setError("Алдаа гарлаа. Дахин оролдоно уу.");
     }
   };
+
   return (
     <View style={styles.container}>
       <View style={styles.logIn}>
@@ -40,18 +43,16 @@ const Sigin = () => {
         />
         <View style={styles.inputStyle}>
           <TextInput
-            // textContentType="emailAddress"
             keyboardType="email-address"
             value={email}
-            onChangeText={(text) => setEmail(text)}
+            onChangeText={setEmail}
             placeholder="email"
           />
         </View>
-
         <View style={styles.inputStyle}>
           <TextInput
             value={password}
-            onChangeText={(text) => setPassword(text)}
+            onChangeText={setPassword}
             secureTextEntry={hidepassword}
             placeholder="password"
           />
@@ -59,11 +60,9 @@ const Sigin = () => {
             <Text>{hidepassword ? "Show" : "Hide"}</Text>
           </TouchableOpacity>
         </View>
-
         <TouchableOpacity onPress={Login} style={styles.logButton}>
           <Text style={{ color: "white", fontWeight: "bold" }}>Log in</Text>
         </TouchableOpacity>
-
         <Link href={"/login/signUp"} asChild>
           <TouchableOpacity>
             <Text style={{ color: "#4CB5F9", fontWeight: "bold" }}>
